@@ -8,7 +8,6 @@ module.exports = {
         filename: 'bundle.js'
     },
     devtool: 'inline-source-map',
-    externals: [nodeExternals()],
     module: {
         rules: [
             {

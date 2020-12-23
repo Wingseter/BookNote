@@ -1,9 +1,8 @@
-import e from 'express';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import request from 'superagent';
-import { RuntimeGlobals } from 'webpack';
 
+// 입력 양식 정의
 class BookNoteForm extends React.Component{
     constructor (props) {
         super(props)
@@ -23,7 +22,7 @@ class BookNoteForm extends React.Component{
     
     
     // 웹 서버에 글 작성
-    post() {
+    post(e) {
         request 
             .get('/api/write')
             .query({
@@ -44,7 +43,7 @@ class BookNoteForm extends React.Component{
     // 입력 창 표시
     render() {
         return (
-            <div style={StyleSheet.form}>
+            <div style={styles.form}>
                 책 제목: <br />
                 <input type='text' value={this.state.book} onChange={e => this.bookChanged(e)}/> <br />
                 노트: <br />
@@ -56,18 +55,18 @@ class BookNoteForm extends React.Component{
 }
 
 class BookNoteApp extends React.Component {
-    constructor (props) {
-        super(props)
+    constructor(props) {
+        super(props);
         this.state = {
-            item: []
-        }
+            items: []
+        };
     }
-    componentWillMount () {
+    componentDidMount() {
         this.loadLogs();
     }
 
     // API를 통해 노트들을 가져온다.
-    loadLogs () {
+    loadLogs() {
         request
             .get('/api/getItems')
             .end((err, data) => {
@@ -75,19 +74,19 @@ class BookNoteApp extends React.Component {
                     console.error(err);
                     return;
                 }
-                this.setState({items: data.body.logs});
+                this.setState({items: data.note.logs});
             })
     }
 
-    render () {
+    render() {
         const itemsHtml = this.state.items.map(e => (
             <li key={e._id}>{e.book} - {e.note}</li>
-        ))
+        ));
         return (
             <div>
-                <h1 style={StyleSheet.h1}>독서노트</h1>
+                <h1 style={styles.h1}>독서노트</h1>
                 <BookNoteForm onPost={e => this.loadLogs()} />
-                <p style={StyleSheet.right}>
+                <p style={styles.right}>
                     <button onClick={e =>this.loadLogs()}>
                         새로고침
                     </button>
