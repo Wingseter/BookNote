@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/f924987e-d45d-438a-9604-a0719b62bce2/resourceGroups/bookNote/providers/Microsoft.Web/sites/booknote",
+    "appService.deploySubpath": "."
+}

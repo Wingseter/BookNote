@@ -10,7 +10,7 @@ const db = new NeDB({
 
 // 서버 실행
 const app = express();
-const portNo = 3030;
+const portNo = process.env.PORT || 3000
 app.listen(portNo, () => {
     console.log('Server Is Ready:', `http://localhost:${portNo}`);
 })
