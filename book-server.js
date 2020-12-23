@@ -4,7 +4,7 @@ const express = require('express');
 
 // db 접속
 const db = new NeDB({
-    filename: path.join(__dirname, 'note.db'),
+    filename: path.join(__dirname, 'body.db'),
     autoload: true
 });
 
@@ -29,7 +29,7 @@ app.get('/api/getItems', (req, res) =>{
     db.find({}).sort({stime: 1}).exec((err, data) => {
         // error 발생시
         if (err) {
-            sendJSON(res, false, {log: [], msg: err});
+            sendJSON(res, false, {logs: [], msg: err});
             return
         }
 
@@ -41,8 +41,8 @@ app.get('/api/getItems', (req, res) =>{
 app.get('/api/write', (req, res)=> {
     const q = req.query;
     db.insert({
-        book: q.book,
-        note: q.note,
+        name: q.name,
+        body: q.body,
         stime: (new Date()).getTime()
     }, (err, doc) => {
         if (err) {

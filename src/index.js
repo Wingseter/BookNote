@@ -7,17 +7,17 @@ class BookNoteForm extends React.Component{
     constructor (props) {
         super(props)
         this.state = {
-            book: '',
-            note: ''
+            name: '',
+            body: ''
         }
     }
 
     bookChanged(e) {
-        this.setState({book: e.target.value});
+        this.setState({name: e.target.value});
     }
     
     noteChanged(e) {
-        this.setState({note: e.target.value});
+        this.setState({body: e.target.value});
     }
     
     
@@ -26,14 +26,14 @@ class BookNoteForm extends React.Component{
         request 
             .get('/api/write')
             .query({
-                book: this.state.book,
-                note: this.state.note
+                name: this.state.name,
+                body: this.state.body
             })
             .end((err, data) => {
                 if(err){
                     console.error(err);
                 }
-                this.setState({note: ''})
+                this.setState({body: ''})
                 if (this.props.onPost){
                     this.props.onPost()
                 }
@@ -43,17 +43,17 @@ class BookNoteForm extends React.Component{
     // 입력 창 표시
     render() {
         return (
-            <div class="shadow-sm p-3 mb-5 bg-white rounded">
-                <div class="input-group mb-3">
-                    <span class="input-group-text inputTitle" id="basic-addon3">책 제목</span>
-                    <input type='text' class="form-control" id="basic-addon3" value={this.state.book} onChange={e => this.bookChanged(e)}/> <br />
+            <div className="shadow-sm p-3 mb-5 bg-white rounded">
+                <div className="input-group mb-3">
+                    <span className="input-group-text inputTitle" id="basic-addon3">책 제목</span>
+                    <input type='text' className="form-control" id="basic-addon3" value={this.state.name} onChange={e => this.bookChanged(e)}/> <br />
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text inputTitle" id="basic-addon3">노트</span>
-                    <input type='text' aria-describedby="basic-addon3" class="form-control" id="basic-addon3" value={this.state.note} size = '60' onChange={e => this.noteChanged(e)} /> <br/>
+                <div className="input-group mb-3">
+                    <span className="input-group-text inputTitle" id="basic-addon3">노트</span>
+                    <input type='text' aria-describedby="basic-addon3" className="form-control" id="basic-addon3" value={this.state.body} size = '60' onChange={e => this.noteChanged(e)} /> <br/>
                 </div>
 
-                <button type="button" class="btn btn-primary" onClick={e=> this.post()}>저장</button>
+                <button type="button" className="btn btn-primary" onClick={e=> this.post()}>저장</button>
             </div>
         );
     }
@@ -66,7 +66,8 @@ class BookNoteApp extends React.Component {
             items: []
         };
     }
-    componentDidMount() {
+
+    componentWillMount() {
         this.loadLogs();
     }
 
@@ -79,24 +80,24 @@ class BookNoteApp extends React.Component {
                     console.error(err);
                     return;
                 }
-                this.setState({items: data.note.logs});
+                this.setState({items: data.body.logs});
             })
     }
 
     render() {
         const itemsHtml = this.state.items.map(e => (
-            <li class="list-group-item" key={e._id}>{e.book} - {e.note}</li>
+            <li className="list-group-item" key={e._id}>{e.name} - {e.body}</li>
         ));
         return (
             <div>
-                <h1 class="display-3">독서노트</h1>
+                <h1 className="display-3">독서노트</h1>
                 <BookNoteForm onPost={e => this.loadLogs()} />
-                <p class="right">
-                    <button type="button" class="btn btn-primary" onClick={e =>this.loadLogs()}>
+                <p className="right">
+                    <button type="button" className="btn btn-primary" onClick={e =>this.loadLogs()}>
                         새로고침
                     </button>
                 </p>
-                <ul class="list-group">{itemsHtml}</ul>
+                <ul className="list-group">{itemsHtml}</ul>
             </div>
         ) 
     }
